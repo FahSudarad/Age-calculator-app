@@ -1,38 +1,159 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;1,100&family=Poppins:ital,wght@0,200;0,400;0,700;0,800;1,200;1,400;1,700;1,800&family=Roboto:ital,wght@0,100;0,400;0,700;1,100;1,400;1,700&display=swap');
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+  font-family: 'Poppins', sans-serif;
+}
+
 .App {
-  text-align: center;
-}
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+  background-color: #f0f0f0;
+  width: 100vw;
+  height: 100vh;
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
 }
 
-.App-link {
-  color: #61dafb;
+.box-cal {
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  border-radius: 30px 30px 150px 30px;
+  padding: 50px;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+.line-submit,
+.date-form,
+.age-cal-data {
+  display: flex;
+  flex-direction: row;
+}
+
+.date,
+.date-data,
+.age-cal {
+  display: flex;
+  flex-direction: column;
+}
+
+.input-data {
+  margin-right: 5px;
+}
+
+.line-submit {
+  align-items: center;
+}
+
+hr {
+  width: 600px;
+}
+
+.date-data label {
+  color: rgb(115 113 113);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 2px;
+}
+
+.date-data input {
+  width: 110px;
+  height: 50px;
+  padding: 20px;
+  border-radius: 10px;
+  border: 2px solid #cfcccc;
+  cursor: pointer;
+}
+
+.date-data {
+  margin-right: 22px;
+}
+
+.date-data input:focus {
+  border: 2px solid #7865a5;
+  outline: none;
+}
+
+.line-submit button {
+  background: none;
+  border: none;
+  width: 70px;
+  height: 67px;
+  border-radius: 30px;
+}
+
+span.age-cal-data h1 {
+  font-size: 60px;
+  font-weight: 900;
+  font-style: italic;
+}
+
+.input-data {
+  color: #864cff;
+}
+
+@media (max-width: 921px) {
+  .box-cal {
+    width: 80%;
+    height: 60%;
+    border-bottom-right-radius: 120px;
   }
-  to {
-    transform: rotate(360deg);
+}
+
+@media (max-width: 687px) {
+  .date-data input {
+    width: 75px;
+  }
+
+  .date-data {
+    margin-right: 10px;
+  }
+
+  .box-cal {
+    padding: 20px;
+  }
+
+  .date-form {
+    justify-content: center;
+  }
+
+  hr {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 100%;
+    border: none;
+    border-top: 1px solid gray;
+    z-index: 1;
+  }
+
+  span.age-cal-data h1 {
+    font-size: 45px;
+  }
+
+  .line-submit img {
+    width: 50px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 2;
+  }
+
+  .line-submit button {
+    width: 65px;
+    height: 50px;
+  }
+
+  .line-submit {
+    justify-content: center;
+    margin-top: 25px;
+    margin-bottom: 5px;
+    position: relative;
+  }
+
+  .date-data label {
+    font-size: 10px;
   }
 }
