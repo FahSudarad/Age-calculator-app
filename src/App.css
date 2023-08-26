@@ -101,6 +101,11 @@ span.age-cal-data h1 {
   }
 }
 
+.date-data input {
+  font-size: 20px;
+  font-weight: 700;
+}
+
 @media (max-width: 687px) {
   .date-data input {
     width: 75px;
@@ -155,5 +160,10 @@ span.age-cal-data h1 {
 
   .date-data label {
     font-size: 10px;
+  }
+
+  .date-data input {
+    font-size: 12px;
+    font-weight: 700;
   }
 }

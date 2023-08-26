@@ -8,21 +8,43 @@ function App() {
   const [month, setMonth] = useState("");
   const [year, setYear] = useState("");
   const currentDate = DateTime.local();
-  const [isValidDate, setIsValidDate] = useState(true); 
+  const [isValidDate, setIsValidDate] = useState(true);
+  const [validationErrors, setValidationErrors] = useState({});
   function checkDateValidity() {
     let isValid = true;
+    let errorMessages = {};
 
-    if (day < 1 || day > 31) {
+    const numericDay = parseInt(day);
+    const numericMonth = parseInt(month);
+    const numericYear = parseInt(year);
+    const currentYear = DateTime.now().year;
+
+    if (!day) {
       isValid = false;
-    }
-    if (month < 1 || month > 12) {
+      errorMessages.day = "This field is required";
+    } else if (isNaN(numericDay) || numericDay < 1 || numericDay > 32) {
       isValid = false;
+      errorMessages.day = "Must be a valid day";
     }
-    if (year < 2024) {
+
+    if (!month) {
       isValid = false;
+      errorMessages.month = "This field is required";
+    } else if (isNaN(numericMonth) || numericMonth < 1 || numericMonth > 12) {
+      isValid = false;
+      errorMessages.month = "Must be a valid month";
     }
-  
+
+    if (!year) {
+      isValid = false;
+      errorMessages.year = "This field is required";
+    } else if (isNaN(numericYear) || numericYear >= currentYear) {
+      isValid = false;
+      errorMessages.year = "Must be in the past";
+    }
+
     setIsValidDate(isValid);
+    setValidationErrors(errorMessages);
     return isValid;
   }
 
@@ -36,16 +58,15 @@ function App() {
 
   function handleSubmit(event) {
     event.preventDefault();
-  
-  // Clear previous error messages
-  setIsValidDate(true);
 
-  const isValid = checkDateValidity();
-  if (isValid) {
-    const formattedMonth = month.padStart(2, "0");
-    const formattedBirthDate = `${day}-${formattedMonth}-${year}`;
-    const age = calculateAge(formattedBirthDate);
-    setAge(age);
+    setIsValidDate(true);
+
+    const isValid = checkDateValidity();
+    if (isValid) {
+      const formattedMonth = month.padStart(2, "0");
+      const formattedBirthDate = `${day}-${formattedMonth}-${year}`;
+      const age = calculateAge(formattedBirthDate);
+      setAge(age);
     }
   }
 
@@ -58,49 +79,118 @@ function App() {
           <form onSubmit={handleSubmit}>
             <div className="date-form">
               <div className="date-data">
-              <label htmlFor="day" style={{ color: isValidDate ? "rgb(115 113 113)" : "red"}}>DAY</label>
+                <label
+                  htmlFor="day"
+                  style={{
+                    color:
+                      isValidDate || !validationErrors.day
+                        ? "rgb(115 113 113)"
+                        : "red",
+                  }}
+                >
+                  DAY
+                </label>
                 <input
                   type="number"
                   id="day"
                   name="day"
+                  placeholder="DD"
                   value={day}
                   onChange={(e) => {
                     setDay(e.target.value);
-                    setIsValidDate(true); // Reset error message
+                    setIsValidDate(true);
                   }}
-                  style={{ borderColor: isValidDate ? "#cfcccc" : "red"}}
+                  style={{
+                    borderColor:
+                      isValidDate || !validationErrors.day ? "#cfcccc" : "red",
+                  }}
                 />
-                {isValidDate?<p/>:<p style={{color:"red", fontSize:"10px", fontStyle:"italic", marginTop: "5px"}}>This field is required</p>}
+                {!isValidDate && validationErrors.day && (
+                  <p
+                    style={{
+                      color: "red",
+                      fontSize: "10px",
+                      fontStyle: "italic",
+                      marginTop: "5px",
+                    }}
+                  >
+                    {validationErrors.day}
+                  </p>
+                )}
               </div>
               <div className="date-data">
-                <label htmlFor="month" style={{ color: isValidDate ? "rgb(115 113 113)" : "red"}}>MONTH</label>
+                <label
+                  htmlFor="month"
+                  style={{
+                    color:
+                      isValidDate || !validationErrors.month
+                        ? "rgb(115 113 113)"
+                        : "red",
+                  }}
+                >
+                  MONTH
+                </label>
                 <input
                   type="number"
                   id="month"
                   name="month"
+                  placeholder="MM"
                   value={month}
                   onChange={(e) => {
-                    setDay(e.target.value);
-                    setIsValidDate(true); // Reset error message
+                    setMonth(e.target.value);
+                    setIsValidDate(true);
                   }}
-                  style={{ borderColor: isValidDate ? "#cfcccc" : "red"}}
+                  style={{
+                    borderColor:
+                      isValidDate || !validationErrors.month
+                        ? "#cfcccc"
+                        : "red",
+                  }}
                 />
-                {isValidDate?<p/>:<p style={{color:"red", fontSize:"10px", fontStyle:"italic", marginTop: "5px"}}>This field is required</p>}
+                {!isValidDate && validationErrors.month && (
+                  <p
+                    style={{
+                      color: "red",
+                      fontSize: "10px",
+                      fontStyle: "italic",
+                      marginTop: "5px",
+                    }}
+                  >
+                    {validationErrors.month}
+                  </p>
+                )}
               </div>
               <div className="date-data">
-                <label htmlFor="month" style={{ color: isValidDate ? "rgb(115 113 113)" : "red"}}>YEAR</label>
+                <label
+                  htmlFor="year"
+                  style={{ color: isValidDate || !validationErrors.year ? "rgb(115 113 113)" : "red" }}
+                >
+                  YEAR
+                </label>
                 <input
                   type="number"
                   id="year"
                   name="year"
+                  placeholder="YYYY"
                   value={year}
                   onChange={(e) => {
-                    setDay(e.target.value);
-                    setIsValidDate(true); // Reset error message
+                    setYear(e.target.value);
+                    setIsValidDate(true);
                   }}
-                  style={{ borderColor: isValidDate ? "#cfcccc" : "red"}}
+                  style={{ borderColor: isValidDate || !validationErrors.year ? "#cfcccc" : "red" }}
                 />
-                {isValidDate?<p/>:<p style={{color:"red", fontSize:"10px", fontStyle:"italic", marginTop: "5px"}}>This field is required</p>}
+                {!isValidDate && validationErrors.year && (
+                  <p
+                    style={{
+                      color: "red",
+                      fontSize: "10px",
+                      fontStyle: "italic",
+                      marginTop: "5px",
+                    }}
+                  >
+                    {validationErrors.year}
+                  </p>
+                )}
               </div>
             </div>
             <div className="line-submit">
